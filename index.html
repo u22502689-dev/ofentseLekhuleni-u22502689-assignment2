@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Municipal Economic Dashboard | Map</title>
+  <meta name="description" content="Map of South African municipalities showing Gini coefficient, median income and FTE employees (SEAD-SA).">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/map.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="sidenav" aria-label="Main navigation">
+      <p class="brand">Dashboard</p>
+      <ul>
+        <li><a href="index.html" aria-current="page">Map</a></li>
+        <li><a href="charts.html" id="navCharts">Chart</a></li>
+      </ul>
+    </nav>
+
+    <div class="content">
+      <header class="page-head">
+        <h1>South African municipalities</h1>
+        <p class="sub">Spatial Economic Activity Data (SEAD-SA), tax years 2014&ndash;2025</p>
+      </header>
+
+      <!-- Controls -->
+      <section class="controls" aria-label="Map controls">
+        <div class="field">
+          <label for="measure">Show on map</label>
+          <select id="measure">
+            <option value="gini">Gini coefficient per municipality</option>
+            <option value="income">Median income per municipality</option>
+            <option value="fte">FTE employees per municipality</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="year">Tax year</label>
+          <select id="year"></select>
+        </div>
+        <div class="field">
+          <label for="minFte">Minimum FTE employees</label>
+          <select id="minFte">
+            <option value="0">All municipalities</option>
+            <option value="500">500 or more</option>
+            <option value="2000">2,000 or more</option>
+            <option value="10000">10,000 or more</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="find">Find a municipality</label>
+          <select id="find"><option value="">Select&hellip;</option></select>
+        </div>
+      </section>
+
+      <p id="status" class="status" role="status">Loading data&hellip;</p>
+
+      <!-- Visualisation area -->
+      <div class="map-grid">
+        <section class="map-wrap">
+          <div id="map" aria-label="Choropleth map of South African municipalities"></div>
+          <div id="legend" class="legend" aria-label="Map legend"></div>
+        </section>
+
+        <aside class="panel" aria-live="polite">
+          <h2 id="detailTitle">Municipality details</h2>
+          <p id="detailHint" class="muted">Hover over the map for a name and value. Click a municipality to pin its details here.</p>
+          <dl id="detailList" class="detail-list" hidden>
+            <div><dt>Province</dt><dd id="dProv"></dd></div>
+            <div><dt>Type</dt><dd id="dType"></dd></div>
+            <div><dt>Gini coefficient</dt><dd id="dGini"></dd></div>
+            <div><dt>Median income</dt><dd id="dIncome"></dd></div>
+            <div><dt>FTE employees</dt><dd id="dFte"></dd></div>
+            <div><dt id="dRankLabel">Rank</dt><dd id="dRank"></dd></div>
+          </dl>
+          <a id="compareLink" class="btn" href="charts.html" hidden>Compare in charts &rarr;</a>
+
+          <div class="kpi-mini">
+            <h3>Selected year, all municipalities</h3>
+            <p><span id="kTotal" class="big">&ndash;</span><br><span class="muted">total FTE employees</span></p>
+            <p><span id="kMedian" class="big">&ndash;</span><br><span class="muted">median of municipal median incomes</span></p>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="site-footer">
+        <p>Data: SEAD-SA (HSRC and National Treasury), built from administrative tax records. Boundaries: Municipal Demarcation Board, 2018 (geometry simplified for web display).
+        Unallocated FTE jobs (&ldquo;Missing Location Data&rdquo;) are not shown on the map.</p>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
