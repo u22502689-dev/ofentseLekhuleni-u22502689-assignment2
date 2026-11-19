@@ -171,6 +171,7 @@ function update() {
   renderLine();
   renderBar(rows);
   renderScatter(rows);
+    if (typeof refreshMapStyle === "function") refreshMapStyle();
 }
 
 window.addEventListener("DOMContentLoaded", init);
