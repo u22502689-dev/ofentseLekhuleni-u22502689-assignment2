@@ -21,10 +21,7 @@ body {
 
 /* ---------- Shell: stacked on mobile, sidebar on desktop ---------- */
 .shell { display: block; min-height: 100vh; }
-
-
 .content { padding: 1rem; max-width: 1500px; }
-
 .page-head h1 { margin: 0; font-size: 1.5rem; }
 .sub { margin: 0.2rem 0 1rem; color: var(--muted); }
 
@@ -55,10 +52,8 @@ select:focus-visible, a:focus-visible, button:focus-visible { outline: 3px solid
 .muted { color: var(--muted); }
 .small { font-size: 0.78rem; }
 
-/* ---------- Map page ---------- */
-.map-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-.map-wrap { position: relative; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-#map { height: 62vh; min-height: 380px; background: #e9eef0; }
+/* ---------- Map  ---------- */
+#map { height: 420px; border-radius: 8px; }
 
 .legend {
   background: rgba(255, 255, 255, 0.96);
