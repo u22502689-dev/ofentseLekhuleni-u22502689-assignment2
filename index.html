@@ -1,37 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Municipal Economic Dashboard | Map</title>
-  <meta name="description" content="Map of South African municipalities showing Gini coefficient, median income and FTE employees (SEAD-SA).">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
-  <script src="js/data.js" defer></script>
-  <script src="js/map.js" defer></script>
+  <title>Municipal Economic Dashboard | Charts</title>
+  <meta name="description" content="Compare two South African municipalities on Gini coefficient, median income and FTE employees (SEAD-SA).">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+  <script src="data.js" defer></script>
+  <script src="chart.js" defer></script>
 </head>
 <body>
   <div class="shell">
-    <nav class="sidenav" aria-label="Main navigation">
-      <p class="brand">Dashboard</p>
-      <ul>
-        <li><a href="index.html" aria-current="page">Map</a></li>
-        <li><a href="charts.html" id="navCharts">Chart</a></li>
-      </ul>
-    </nav>
+    
 
     <div class="content">
       <header class="page-head">
-        <h1>South African municipalities</h1>
+        <h1>South African Municipalities</h1>
         <p class="sub">Spatial Economic Activity Data (SEAD-SA), tax years 2014&ndash;2025</p>
+        <h2>Comparison of all three measures</h2>
+        <p class="sub">Gini coefficient, median income and FTE employees</p>
       </header>
+      
 
       <!-- Controls -->
-      <section class="controls" aria-label="Map controls">
+      <section class="controls" aria-label="Chart controls">
         <div class="field">
-          <label for="measure">Show on map</label>
+          <label for="muniA">Region 1</label>
+          <select id="muniA"></select>
+        </div>
+        <div class="field">
+          <label for="muniB">Region 2</label>
+          <select id="muniB"></select>
+        </div>
+        <div class="field">
+          <label for="measure">Measure (line and bar charts)</label>
           <select id="measure">
             <option value="gini">Gini coefficient</option>
             <option value="income">Median income</option>
@@ -39,7 +42,7 @@
           </select>
         </div>
         <div class="field">
-          <label for="year">Tax year</label>
+          <label for="year">Year (bar chart, scatterplot)</label>
           <select id="year"></select>
         </div>
         <div class="field">
@@ -51,45 +54,36 @@
             <option value="10000">10,000 or more</option>
           </select>
         </div>
-        <div class="field">
-          <label for="find">Find a municipality</label>
-          <select id="find"><option value="">Select&hellip;</option></select>
-        </div>
       </section>
 
       <p id="status" class="status" role="status">Loading data&hellip;</p>
 
+      <!-- Summary indicators -->
+      <section class="kpis" aria-label="Summary indicators">
+        <article class="kpi"><h3 id="k1Label">Total FTE employees</h3><p id="k1Value" class="kpi-value">&ndash;</p><p id="k1Note" class="kpi-note"></p></article>
+        <article class="kpi"><h3 id="k2Label">Median of municipal median incomes</h3><p id="k2Value" class="kpi-value">&ndash;</p><p id="k2Note" class="kpi-note"></p></article>
+        <article class="kpi"><h3 id="k3Label">Mean Gini coefficient</h3><p id="k3Value" class="kpi-value">&ndash;</p><p id="k3Note" class="kpi-note"></p></article>
+        <article class="kpi"><h3 id="k4Label">Change since 2014</h3><p id="k4Value" class="kpi-value">&ndash;</p><p id="k4Note" class="kpi-note"></p></article>
+      </section>
+
       <!-- Visualisation area -->
-      <div class="map-grid">
-        <section class="map-wrap">
-          <div id="map" aria-label="Choropleth map of South African municipalities"></div>
-          <div id="legend" class="legend" aria-label="Map legend"></div>
+      <div class="charts">
+        <section class="card wide">
+          <h2 id="lineTitle">Trend over time</h2>
+          <div class="chart-box"><canvas id="lineChart" role="img" aria-label="Line chart of the selected measure over tax years for two municipalities"></canvas></div>
         </section>
-
-        <aside class="panel" aria-live="polite">
-          <h2 id="detailTitle">Municipality details</h2>
-          <p id="detailHint" class="muted">Hover over the map for a name and value. Click a municipality to pin its details here.</p>
-          <dl id="detailList" class="detail-list" hidden>
-            <div><dt>Province</dt><dd id="dProv"></dd></div>
-            <div><dt>Type</dt><dd id="dType"></dd></div>
-            <div><dt>Gini coefficient</dt><dd id="dGini"></dd></div>
-            <div><dt>Median income</dt><dd id="dIncome"></dd></div>
-            <div><dt>FTE employees</dt><dd id="dFte"></dd></div>
-            <div><dt id="dRankLabel">Rank</dt><dd id="dRank"></dd></div>
-          </dl>
-          <a id="compareLink" class="btn" href="charts.html" hidden>Compare in charts &rarr;</a>
-
-          <div class="kpi-mini">
-            <h3>Selected year, all municipalities</h3>
-            <p><span id="kTotal" class="big">&ndash;</span><br><span class="muted">total FTE employees</span></p>
-            <p><span id="kMedian" class="big">&ndash;</span><br><span class="muted">median of municipal median incomes</span></p>
-          </div>
-        </aside>
+        <section class="card">
+          <h2 id="barTitle">Highest municipalities</h2>
+          <div class="chart-box tall"><canvas id="barChart" role="img" aria-label="Bar chart of the ten highest municipalities for the selected measure"></canvas></div>
+        </section>
+        <section class="card">
+          <h2 id="scatterTitle">Median income vs Gini coefficient</h2>
+          <div class="chart-box tall"><canvas id="scatterChart" role="img" aria-label="Scatterplot of median income against Gini coefficient, point size shows FTE employees"></canvas></div>
+        </section>
       </div>
 
       <footer class="site-footer">
-        <p>Data: SEAD-SA (HSRC and National Treasury), built from administrative tax records. Boundaries: Municipal Demarcation Board, 2018 (geometry simplified for web display).
-        Unallocated FTE jobs (&ldquo;Missing Location Data&rdquo;) are not shown on the map.</p>
+        <p>Data: SEAD-SA (HSRC and National Treasury), built from administrative tax records, so informal-sector income is not included. Boundaries: Municipal Demarcation Board, 2018.</p>
       </footer>
     </div>
   </div>

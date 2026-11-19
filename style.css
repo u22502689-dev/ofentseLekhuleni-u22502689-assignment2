@@ -7,7 +7,6 @@
   --accent-dark: #0b5650;
   --border: #d9e2de;
   --radius: 10px;
-  --nav-w: 200px;
 }
 
 * { box-sizing: border-box; }
@@ -23,22 +22,6 @@ body {
 /* ---------- Shell: stacked on mobile, sidebar on desktop ---------- */
 .shell { display: block; min-height: 100vh; }
 
-.sidenav {
-  background: var(--accent-dark);
-  color: #fff;
-  padding: 0.6rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-.sidenav .brand { margin: 0; font-weight: 700; font-size: 1.1rem; }
-.sidenav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.5rem; }
-.sidenav a {
-  color: #d9f0ec; text-decoration: none; padding: 0.4rem 0.8rem;
-  border-radius: 6px; display: block;
-}
-.sidenav a:hover { background: rgba(255, 255, 255, 0.12); }
-.sidenav a[aria-current="page"] { background: #fff; color: var(--accent-dark); font-weight: 600; }
 
 .content { padding: 1rem; max-width: 1500px; }
 
@@ -132,9 +115,6 @@ select:focus-visible, a:focus-visible, button:focus-visible { outline: 3px solid
 
 /* ---------- Desktop: left navigation, map beside details ---------- */
 @media (min-width: 1000px) {
-  .shell { display: grid; grid-template-columns: var(--nav-w) 1fr; }
-  .sidenav { flex-direction: column; align-items: stretch; gap: 1rem; padding: 1.25rem 1rem; position: sticky; top: 0; height: 100vh; }
-  .sidenav ul { flex-direction: column; }
   .content { padding: 1.5rem; }
   .page-head h1 { font-size: 1.8rem; }
   .controls { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
